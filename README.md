@@ -1,4 +1,4 @@
-# PM-analysis
+# PM2.5-analysis
 **Title:** Deep Learning and Statistical Approaches for Area-Based PM2.5 Forecasting in Hat Yai, Thailand
 
 **Abstact:**
