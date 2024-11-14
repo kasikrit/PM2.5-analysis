@@ -1,6 +1,33 @@
 # PM-analysis
-Deep Learning and Statistical Analysis for Area-Based PM2.5 Forecasting in Hat Yai: A Pilot Study
+Deep Learning and Statistical Approaches for Area-Based PM2.5 Forecasting in Hat Yai, Thailand
 
 Abstact:
 
-PM2.5 pollution is a major concern in Southeast Asia, including Thailand, significantly impacting both environmental and human health. This study focuses on area-based forecasting of PM2.5 concentrations in Hat Yai city, Songkhla province, using data from 2013 to 2023 collected at the local Hat Yai station. We developed and evaluated forecasting models employing Deep Learning and Machine Learning techniques, enhanced by statistical tools for performance analysis. The ConvLSTM1D-BiLSTM model, optimized with a 7-input window, 1-output window, and 6 strides, emerged as the most effective, achieving a mean MAE of 2.11 and a mean R2 score of 0.64. In PM2.5 level classification, it reached macro average sensitivity and F1 scores of 0.79 and 0.78, respectively. External validation with data from four nearby stations further demonstrated the model's effectiveness, yielding a mean MAE of 2.57. The results of this pilot study highlight the robustness of our method, paving the way for its practical application in similar settings.
+PM2.5 pollution poses a significant environmental and health concern across Southeast Asia, including Thailand. This study aims to forecast area-based PM2.5 concentrations in Hat Yai city, Songkhla province, using daily data collected from the Hat Yai monitoring station from 2013 to 2023. To achieve this, we developed and evaluated forecasting models utilizing both Deep Learning (DL) and Machine Learning (ML) techniques, with performance assessed using statistical tools. Among the tested models, the ConvLSTM1D-BiLSTM model, optimized with a 7-input window, 1-output window, and 6 strides, demonstrated the highest effectiveness, achieving a mean MAE of 2.05 and a mean R\(^2\) score of 0.68. In PM2.5 level classification, this model attained macro-average accuracy, sensitivity, and F1 scores of 0.86, 0.80, and 0.80, respectively. External validation using data from four nearby stations further confirmed the model's effectiveness, yielding a mean MAE of 1.38 and a mean R\(^2\) score of 0.90. These results underscore the robustness of our approach, supporting its practical application, particularly for local stations in Southern Thailand.
+
+# Software requirements
+
+The code and data for this study, developed using Python 3.8.18 and TensorFlow 2.13.1. Statistical analyses were conducted using Scipy (version 1.10.1), Statsmodels (version 0.14.1), and Scikit-posthocs(version 0.8.1). Additionally, the Kaggle Notebook illustrating the development and validation of the proposed model is publicly available at https://www.kaggle.com/code/kasikrit/pm-analysis-train-and-validate.
+## Create a python environment
+We use [Anaconda](https://anaconda.org/). With in Anaconda command prompt.
+
+conda create -n py38pm python=3.8.18
+conda activate py38pm
+
+## Install software packages
+Install software packages in requirements.txt
+For example.
+
+pip install TensorFlow==2.13.1 scipy=1.10.1, statsmodels==0.14.1 
+
+## Dataset prepareration
+
+
+# 1. How to train and validate a model?
+
+
+
+
+
+
+
