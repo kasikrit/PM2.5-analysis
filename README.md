@@ -7,7 +7,8 @@ PM2.5 pollution poses a significant environmental and health concern across Sout
 
 # Software Requirements
 
-The code and data for this study were developed using Python 3.8.18 and TensorFlow 2.13.1. Statistical analyses were conducted using SciPy (version 1.10.1), Statsmodels (version 0.14.1), and Scikit-posthocs (version 0.8.1). Additionally, the Kaggle Notebook illustrating the development and validation of the proposed model is publicly available at [this link](https://www.kaggle.com/code/kasikrit/pm-analysis-train-and-validate).
+The code and data for this study were developed using [Python 3.8.18](https://www.python.org/downloads/release/python-3818/) and [TensorFlow 2.13.1](https://www.tensorflow.org/). Statistical analyses were conducted using [SciPy](https://scipy.org/) (version 1.10.1), [Statsmodels](https://www.statsmodels.org/stable/index.html) (version 0.14.1), and [Scikit-posthocs](https://github.com/maximtrp/scikit-posthocs) (version 0.8.1). Additionally, the Kaggle Notebook illustrating the development and validation of the proposed model is publicly available at [this link](https://www.kaggle.com/code/kasikrit/pm-analysis-train-and-validate).
+
 
 ## Creating a Python Environment
 
