@@ -46,14 +46,22 @@ You can add other columns, but we primarily use PM concentration values.
 Use the [pm-rescaled-DL-train.py](https://github.com/kasikrit/PM-analysis/blob/main/pm-rescaled-DL-train.py) file with the following hyperparameter settings. In this work, we use a 7-input window, 1-output window, and a 6-stride slicing window configuration for reading data points.
 
 ```python
-init_lr = 1e-4
-epochs = 50
-batch_size = 2
-model_name = 'Model-4'  # It is the best model, ConvLSTM1D-BiLSTM.
-time_series_data = np.array(pm_rescaled_1)  
-W_ins = [7]
-W_outs = [1]
-Strides = [1, 2, 3, 4, 5, 6, 7]
+# Define training parameters for the ConvLSTM1D-BiLSTM model
+init_lr = 1e-4         # Initial learning rate for model training
+epochs = 50            # Number of epochs (iterations over the entire dataset) for training
+batch_size = 2         # Number of samples per batch (helps in optimizing model training)
+
+# Model name for saving/loading purposes
+model_name = 'Model-4'  # This is the best-performing model configuration, ConvLSTM1D-BiLSTM
+
+# Convert the prepared PM2.5 time series data into a numpy array
+time_series_data = np.array(pm_rescaled_1)  # Array containing the rescaled PM2.5 data for model input
+
+# Window and stride configurations for input/output data sequences
+W_ins = [7]             # Input window sizes (number of time steps considered for each input)
+W_outs = [1]            # Output window sizes (number of future time steps the model will predict)
+Strides = [1, 2, 3, 4, 5, 6, 7]  # Possible strides for the sliding window to adjust data overlap
+
 ```
 
 # Validating the ConvLSTM1D-BiLSTM Model with External Unseen Data
@@ -73,20 +81,26 @@ Strides = [1, 2, 3, 4, 5, 6, 7]
 2. **Load the Model**: Download the ConvLSTM1D-BiLSTM model at [Model-ConvLSTM1D-BiLSTM-pm-7-1-6-bs2-loss-mse-50ep-20230117.hdf5](https://github.com/kasikrit/PM-analysis/blob/main/Model-ConvLSTM1D-BiLSTM-pm-7-1-6-bs2-loss-mse-50ep-20230117.hdf5).
 3. **Run Validation**: Use the [pm-rescaled-DL-val.py](https://github.com/kasikrit/PM-analysis/blob/main/pm-rescaled-DL-val.py) file with the following hyperparameter settings:
 ```python
-# 7-1-6 model
+# Load the pre-trained ConvLSTM1D-BiLSTM model with specific hyperparameters (7-1-6 configuration)
 backup_model_best = 'Model-ConvLSTM1D-BiLSTM-pm-7-1-6-bs2-loss-mse-50ep-20230117.hdf5'
-model = load_model(backup_model_best)
-print(model.summary())
-print('Loaded:', backup_model_best)
+model = load_model(backup_model_best)  # Load the model from file
+print(model.summary())  # Display the model architecture and parameters
+print('Loaded:', backup_model_best)  # Confirm successful loading of the model
 
+# File path to the PM2.5 data for validation, which includes PM2.5 data for selected stations in 2023
 pm_file = 'PM2.5(2023)-selected-app.csv'
+
+# List of station codes included in the dataset (columns for each station in the CSV file)
 stations = ['80T', '63T', '78T', '62T']
 
-W_in = 7
-W_out = 1
-stride = 6
-N_forecast = 14
-input_seqs = N_forecast * stride + W_in + W_out - 1
+# Define model configuration parameters
+W_in = 7        # Input window size (number of previous time steps considered as input)
+W_out = 1       # Output window size (number of future time steps predicted)
+stride = 6      # Stride length for sliding window (determines how far the window shifts for each step)
+N_forecast = 14 # Forecast horizon (number of time steps to predict into the future)
+
+# Calculate the total length of input sequences based on model configuration
+input_seqs = N_forecast * stride + W_in + W_out - 1  # Total number of time steps for input sequence
 ```
 
 
