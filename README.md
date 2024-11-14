@@ -26,7 +26,7 @@ pip install TensorFlow==2.13.1 scipy==1.10.1 statsmodels==0.14.1
 ```
 
 ## Dataset Prepareration
-Our method supports one-dimensional time series data in a CSV file (see [pm2013_2023.csv](https://github.com/kasikrit/PM-analysis/blob/main/pm2013_2023.csv)). YYou can prepare PM2.5 data with a column named PM. Example data format:
+Our method supports one-dimensional time series data in a CSV file (see [pm2013_2023.csv](https://github.com/kasikrit/PM-analysis/blob/main/pm2013_2023.csv)). You can prepare PM2.5 data with a column named PM. Example data format:
 
 | Date       | Day | Month | Year | PM |
 |------------|-----|-------|------|----|
