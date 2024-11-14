@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sat Jan 20 13:39:29 2024
-
+Updated on Nov 14, 2024
 @author: kasikritdamkliang
 """
 import tensorflow as tf
@@ -25,7 +25,6 @@ from tensorflow.keras import backend, optimizers
 # import mymodels
 import keras
 
-#%https://www.kaggle.com/code/rakshitacharya/convlstm1d-for-weather-data
 from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping, ModelCheckpoint
 from tensorflow.keras.optimizers import Adam
 
@@ -57,17 +56,7 @@ def create_dataset_with_stride(time_series, W_in, W_out, S):
         y.append(time_series[i + W_in : i + W_in + W_out])
     return np.array(X), np.array(y)
 
-#%%%
-pm_file = 'PM2.5(2023)-selected-app.csv'
-df = pd.read_csv(pm_file)
-
-# df = pd.read_csv('test-55-day.csv')
-n = len(df)
-print(n)
-stations = ['80T', '63T', '78T', '62T']
-# station = stations[1]
-df_output = pd.DataFrame([])
-#%
+#%%
 init_lr = 10e-4
 epochs = 50
 batch_size = 2
@@ -85,15 +74,36 @@ model.compile(
     loss='mse',
     metrics=['mae', 'mse'])
 
+#%%%
+pm_file = 'PM2.5(2023)-selected-app.csv'
+stations = [
+    #'44T',
+    '80T',
+    '63T',
+    '78T',
+    '62T'
+    ]
+
+
+print(f"{len(stations)=}")
+df = pd.read_csv(pm_file)
+
+# df = pd.read_csv('test-55-day.csv')
+n = len(df)
+print(n)
+# stations = ['80T', '63T', '78T', '62T']
+
+
 #%% 
 # W_ins = [7, 7, 7, 8, 15]  # The input window size from your table
 # W_outs = [1, 3, 7, 2, 5]  # The output range from your table
 W_in = 7
 W_out = 1
 stride = 6 
+# N_forecast = 7
 N_forecast = 14
 input_seqs = N_forecast * stride + W_in + W_out - 1
-
+print(f"{input_seqs=}")
 # N_forecasts = [7, 14, 21, 28, 35]
 # input_seqs = []
 # for N_forecast in N_forecasts:
@@ -101,20 +111,28 @@ input_seqs = N_forecast * stride + W_in + W_out - 1
 #     print(input_seq)
 #     input_seqs.append(input_seq)
     
-# for pair in zip(N_forecasts, input_seqs):
+# for pair in zipc(N_forecasts, input_seqs):
 #     print(pair)
-  
+
+#%% 
+df_output = pd.DataFrame([])
 for station in stations:
-    pm = df[station].values #Satun
-    plt.figure(dpi=300)
-    plt.hist(pm, bins='auto')
-    plt.title('PM2.5')
-    #%\ pm=>rescaled
+    if N_forecast==7 or N_forecast==14:
+        pm_selected = df.tail(input_seqs)       
+        pm = pm_selected[station].values
+    else:
+        pm = df[station].values 
+   
+    # plt.figure(dpi=300)
+    # plt.hist(pm, bins='auto')
+    # plt.title('PM2.5')
+    
+    #% pm=>rescaled
     sc = MinMaxScaler()
     pm_rescaled_1 = sc.fit_transform(pm.reshape(-1,1))
     time_series_data = np.array(pm_rescaled_1[:input_seqs]) 
       
-    #%%
+    #%
     # for cnt in range(5):
     #     print(cnt)   
     # for W_in, W_out in zip(W_ins, W_outs):
@@ -126,7 +144,7 @@ for station in stations:
     y = y.reshape(-1, 1)
     print(X.shape, y.shape)
     
-    #%%  
+    #% 
     X_test = np.reshape(X,
                     (X.shape[0],
                     1,
@@ -142,38 +160,10 @@ for station in stations:
         y_test = y.reshape(-1, 1)
     print(y_test.shape)
     
-    #%%   
-    # inp = layers.Input(shape=(1, W_in, 1))
-    # print(inp.shape)   
-    
-    # if model_name == 'Model-1':
-    #     model = mymodels.build_model_1(inp, num_classes)  
-    # elif model_name == 'Model-5':
-    #     model = mymodels.build_model_5(inp, num_classes)    
-    # else:
-    #     model = mymodels.build_model_4(inp, num_classes)  
-    
-    # model.compile(
-    #     optimizer=optimizers.Adam(
-    #         learning_rate = init_lr),
-    #     # optimizer='adam',
-    #     loss='mse',
-    #     # loss='mae',
-    #     metrics=['mae', 'mse'])
-    
-    # print(model.summary())
-      
-    # backup_model_best = f'{model.name}-{data_note}-50ep-20230118.hdf5'
-    # print('\nbackup_model_best: ', backup_model_best)
-    # mcp2 = ModelCheckpoint(
-    #     backup_model_best,
-    #     save_best_only=True)
-
-
-    #%%    
+    #%   
     y_pred = model.predict(X_test, verbose=1)
     
-    #%%
+    #%
     print("Predict PM values")
     y_test_reversed = sc.inverse_transform(
         y_test.reshape(-1,1))
@@ -188,12 +178,13 @@ for station in stations:
     mae = mean_absolute_error(y_test_reversed, y_pred_reversed)
     rmse = np.sqrt(mse)
     
+    print(f"{station}")
     print("MSE: ", mse)
     print("MAE: " , mae)
     print("RMSE: " , rmse)
     print("R2_score: ", r2) 
     
-    #%%
+    #%
     plt.rcParams.update({'font.size': 16})
     plt.figure(figsize=(12, 6), dpi=600)
     plt.plot(y_test_reversed.flatten(), color='blue')
@@ -203,8 +194,9 @@ for station in stations:
     plt.xlabel(f"MAE: {mae:.2f}")
     # plt.savefig(f"{model.name}-{station}.png")
     plt.show()
-       
-     #%%
+    
+    
+     #%
     df_output = df_output._append(pd.DataFrame(
         {
         "W_in": [W_in],
@@ -220,19 +212,18 @@ for station in stations:
         ignore_index=True)
     print(df_output)
 
-displacement = [62, 103, 152, 162]
-df_output['displacement'] = displacement
+# displacement = [62, 103, 151, 162]
+# df_output['displacement'] = displacement
 
-df_output_file = f"{model.name}.csv"
+df_output_file = "performance-log.csv"
 df_output.to_csv(df_output_file)
-
 
 #%%
 # Number of stations and metrics
 n_stations = len(df_output['station'])
 n_metrics = 4  # MSE, MAE, RMSE, R2_score
 # Create a figure and axis
-fig, ax = plt.subplots(figsize=(14, 8), dpi=300)
+fig, ax = plt.subplots(figsize=(14, 8), dpi=600)
 fontsize=18
 plt.rcParams.update({'font.size': fontsize})
 # Set the positions for the bars
@@ -251,7 +242,10 @@ def add_labels(ax, bars, fontsize):
         ha='center', va='bottom',
         fontsize=fontsize)
         
-for i, metric in enumerate(['MSE', 'MAE', 'RMSE', 'R2_score']):
+for i, metric in enumerate(
+        [
+        'MSE',
+        'MAE', 'RMSE', 'R2_score']):
     bars = ax.bar(indices + i * bar_width,
            df_output[metric],
            width=bar_width,
@@ -263,7 +257,7 @@ for i, metric in enumerate(['MSE', 'MAE', 'RMSE', 'R2_score']):
 # Add labels, title and axes ticks
 ax.set_xlabel('Station')
 ax.set_ylabel('Value')
-ax.set_ylim(0, 23)
+ax.set_ylim(0, 17.5)
 ax.set_title('Metrics by Station')
 ax.set_xticks(indices + bar_width * 1.5)
 ax.set_xticklabels(df_output['station'])
@@ -274,11 +268,11 @@ ax2 = ax.twinx()
 
 # Plotting the distance as a line graph
 line, = ax2.plot(df_output['station'],
-                 df_output['displacement'],
-                 color='darkgreen',
-                 linewidth=3,
-                 marker='o',
-                 label='Displacement')
+                  df_output['displacement'],
+                  color='darkgreen',
+                  linewidth=3,
+                  marker='o',
+                  label='Displacement')
 
 # Add labels for the line graph
 ax2.set_ylabel('Displacement', fontsize=fontsize)
@@ -293,7 +287,9 @@ lines2, labels2 = ax2.get_legend_handles_labels()
 ax2.legend(lines + lines2, labels + labels2, loc='upper left')
 
 # Save and show plot
-# plt.savefig('four-external-validated-forecasts.png')
+plt.savefig('four-external-validated-forecasts-revise2.png')
 plt.show()
+
+
 
 
