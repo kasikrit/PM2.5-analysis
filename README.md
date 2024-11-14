@@ -79,13 +79,14 @@ model = load_model(backup_model_best)
 print(model.summary())
 print('Loaded:', backup_model_best)
 
+pm_file = 'PM2.5(2023)-selected-app.csv'
+stations = ['80T', '63T', '78T', '62T']
+
 W_in = 7
 W_out = 1
 stride = 6
 N_forecast = 14
 input_seqs = N_forecast * stride + W_in + W_out - 1
-
-stations = ['80T', '63T', '78T', '62T']
 ```
 
 
