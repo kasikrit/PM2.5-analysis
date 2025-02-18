@@ -1,6 +1,6 @@
 # PM2.5-analysis
 
-**Citation**
+**Citation:**
 Damkliang, K., Chumnaul, J. Deep learning and statistical approaches for area-based PM2.5 forecasting in Hat Yai, Thailand. J Big Data 12, 36 (2025). https://doi.org/10.1186/s40537-025-01079-9
 
 **Title:** Deep learning and statistical approaches for area-based PM2.5 forecasting in Hat Yai, Thailand
