@@ -5,7 +5,7 @@ Damkliang, K., Chumnaul, J. Deep learning and statistical approaches for area-ba
 
 **Title:** Deep learning and statistical approaches for area-based PM2.5 forecasting in Hat Yai, Thailand
 
-**Abstact:**
+**Abstract:**
 
 PM2.5 pollution poses a significant environmental and health concern across Southeast Asia, including Thailand. This study aims to forecast area-based PM2.5 concentrations in Hat Yai city, Songkhla province, using daily data collected from the Hat Yai monitoring station from 2013 to 2023. To achieve this, we developed and evaluated forecasting models utilizing both Deep Learning (DL) and Machine Learning (ML) techniques, with performance assessed using statistical tools. Among the tested models, the ConvLSTM1D-BiLSTM model, optimized with a 7-input window, 1-output window, and 6 strides, demonstrated the highest effectiveness, achieving a mean MAE of 2.05 and a mean R\(^2\) score of 0.68. In PM2.5 level classification, this model attained macro-average accuracy, sensitivity, and F1 scores of 0.86, 0.80, and 0.80, respectively. External validation using data from four nearby stations further confirmed the model's effectiveness, yielding a mean MAE of 1.38 and a mean R\(^2\) score of 0.90. These results underscore the robustness of our approach, supporting its practical application, particularly for local stations in Southern Thailand.
 
